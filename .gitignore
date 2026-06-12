@@ -1,0 +1,65 @@
+# =========================================================================
+# 1. DEPENDENCIES & PACKAGE LOCKS (Keeps repository lightweight)
+# =========================================================================
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Optional: Ignore package locks if you prefer to let npm regenerate them
+# package-lock.json
+# backend/package-lock.json
+# frontend/package-lock.json
+
+
+# =========================================================================
+# 2. ENVIRONMENT SECRETS & CREDENTIALS (CRITICAL: Prevents Git leaks)
+# =========================================================================
+.env
+.env.local
+.env.production
+.env.development
+
+# Backend specific secrets
+backend/.env
+
+# Frontend (Next.js) specific secrets
+frontend/.env
+frontend/.env.local
+frontend/.env.production.local
+frontend/.env.development.local
+
+
+# =========================================================================
+# 3. BUILD & COMPILED OUTPUTS (Prevents tracking auto-generated code)
+# =========================================================================
+# TypeScript production build output for Express
+backend/dist/
+backend/build/
+
+# Next.js production build output and cache
+frontend/.next/
+frontend/out/
+frontend/build/
+
+
+# =========================================================================
+# 4. DIAGNOSTICS & SYSTEM LOGS (Keeps commits clean)
+# =========================================================================
+# npm and yarn logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE and Editor configurations
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Operating System files
+.DS_Store
+Thumbs.db
