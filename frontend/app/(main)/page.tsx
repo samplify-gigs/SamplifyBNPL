@@ -1,7 +1,11 @@
+import NavBar from "@/components/Navbar/NavBar";
+
 export default function Home() {
   return (
     <main>
-      <section >dvkdfjvkfdj</section>
+      <header >
+      <NavBar/>
+      </header>
     </main>
   );
 }
