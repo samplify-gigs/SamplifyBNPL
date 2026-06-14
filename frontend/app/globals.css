@@ -26,3 +26,10 @@
     radial-gradient(circle 500px at 85% 75%, #9D4EDD30 0%, transparent 65%),
     linear-gradient(160deg, #10002B 0%, #240046 55%, #0D001A 100%);
 }
+
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
