@@ -33,3 +33,14 @@
     display: none;
   }
 }
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 6px;
+}
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: rgba(157, 78, 221, 0.4);
+  border-radius: 10px;
+}
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}

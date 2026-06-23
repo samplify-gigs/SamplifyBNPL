@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 export default function HomeBody() {
@@ -13,6 +15,7 @@ export default function HomeBody() {
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
               Flexible financing on your terms
             </div>
+            
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white  leading-[1.1] tracking-tight mb-5 mt-3">
@@ -34,7 +37,7 @@ export default function HomeBody() {
             {/* CTA row */}
             <div className="flex flex-col sm:flex-row gap-3 pt-2">
               <Link
-                href="/merchant"
+                href="/MerchantSignup"
                 className="px-6 py-3 cursor-pointer rounded-full bg-gradient-to-r from-[#7B2FBE] to-[#9D4EDD] text-white font-semibold text-sm shadow-[0_0_24px_rgba(157,78,221,0.4)] 
                 hover:shadow-[0_0_32px_rgba(157,78,221,0.6)] hover:scale-[1.02] transition-all duration-200"
               >
