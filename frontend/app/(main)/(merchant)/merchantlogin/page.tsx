@@ -38,13 +38,21 @@ export default function MerchantLogin() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8080/api/merchant/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(loginData),
-      });
+      const res = await fetch(
+        "http://localhost:8080/api/merchantlogin/merchantlogin",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(loginData),
+        },
+      );
 
       const data = await res.json();
+
+      if (data.message === "account will be verified manually") {
+        router.push("/merchantmanualver");
+        return;
+      }
 
       if (!res.ok) {
         setError(data.message);
@@ -57,7 +65,9 @@ export default function MerchantLogin() {
       }
     } catch (err) {
       console.error(`error sending login data: ${err}`);
-      setError("Couldn't reach the server. Check your connection and try again.");
+      setError(
+        "Couldn't reach the server. Check your connection and try again.",
+      );
     } finally {
       setLoading(false);
     }
@@ -186,9 +196,7 @@ export default function MerchantLogin() {
             <span className="text-[#7B2FBE] text-xs font-semibold uppercase tracking-widest">
               Merchant login
             </span>
-            <h1 className="text-[#10002B] text-3xl font-bold">
-              Welcome back
-            </h1>
+            <h1 className="text-[#10002B] text-3xl font-bold">Welcome back</h1>
             <p className="text-gray-400 text-sm">
               Enter your credentials to access your store dashboard.
             </p>

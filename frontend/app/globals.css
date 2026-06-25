@@ -44,3 +44,7 @@
 .overflow-y-auto::-webkit-scrollbar-track {
   background: transparent;
 }
+
+html {
+  scroll-behavior: smooth;
+}
