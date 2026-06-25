@@ -23,3 +23,8 @@ export const signupSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const merchantLoginSchema = z.object({
+  email: z.email("Invalid email address"),
+  password: z.string().min(1, "password is required"),
+});

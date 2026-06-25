@@ -24,11 +24,7 @@ export async function MerchantEmailVerify(req: Request, res: Response) {
       });
     }
 
-    if (new Date() > merchant.expires_at) {
-      return res.json({
-        message: "link is expired",
-      });
-    }
+    
 
     if (new Date() > merchant.expires_at) {
       return res.status(400).json({
