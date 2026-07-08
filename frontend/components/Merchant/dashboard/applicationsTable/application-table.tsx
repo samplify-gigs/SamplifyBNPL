@@ -101,7 +101,7 @@ export default function ApplicationsTable() {
       {/* Cards — mobile */}
       <div className="md:hidden flex flex-col gap-3">
         {filtered.map((app) => (
-          <div key={app.id} className="rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-xl p-4 flex flex-col gap-3">
+          <div key={app.id} className="rounded-2xl border border-white/10 bg-white/[0.05] backdrop-blur-xl p-4 flex flex-col gap-3 mb-2">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#7B2FBE] to-[#9D4EDD] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">

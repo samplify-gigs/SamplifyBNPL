@@ -25,7 +25,7 @@ export default function PaymentLinksGenerator() {
   return (
     <div className="flex flex-col gap-6">
       {/* Generator card */}
-      <div className="rounded-3xl border border-white/10 bg-white/[0.05] backdrop-blur-xl p-5 lg:p-6">
+      <div className=" rounded md:rounded-3xl border border-white/10 bg-white/[0.05] backdrop-blur-xl p-5 lg:p-6">
         <h2 className="text-white font-semibold text-base mb-4">Generate a payment link</h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr_auto] gap-3">

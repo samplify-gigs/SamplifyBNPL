@@ -25,7 +25,7 @@ export default function StatCard({
   accent = "purple",
 }: StatCardProps) {
   return (
-    <div className="relative rounded-3xl border border-white/10 bg-white/[0.05] backdrop-blur-xl p-5 overflow-hidden">
+    <div className="relative rounded border border-white/10 bg-white/[0.05] backdrop-blur-xl p-5 overflow-hidden">
       {/* Ambient glow */}
       <div
         className={`absolute -top-8 -right-8 w-28 h-28 rounded-full bg-gradient-to-br ${accentMap[accent].split(" text-")[0]} opacity-15 blur-2xl pointer-events-none`}

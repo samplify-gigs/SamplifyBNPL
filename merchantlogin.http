@@ -1,5 +1,1 @@
-POST http://localhost:8080/api/merchantlogin/merchantlogin
-Content-Type: application/json
-
-{"email": "samplifygigs@gmail.com",
-"password": "Bisolaluv8585$"}
+GET  http://localhost:8080/api/merchantdash/dashboard

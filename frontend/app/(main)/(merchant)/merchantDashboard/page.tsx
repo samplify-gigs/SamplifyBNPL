@@ -13,8 +13,9 @@ export default function OverviewPage() {
     .reduce((sum, a) => sum + a.amount, 0);
 
   return (
-    <div className="flex flex-col gap-6 pt-2">
+    <main className="flex flex-col gap-6 pt-3 px-2 h-full mt-4 p-8 md:p-12 rounded-3xl bg-[image:var(--bg-gradient)] backdrop-blur-2xl border border-purple-500/15 shadow-[0_8px_64px_rgba(90,24,154,0.35),inset_0_1px_0_rgba(255,255,255,0.06)] relative overflow-hidden">
       {/* Stat cards */}
+      
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Total applications" value={total.toString()} icon={FileText} trend="8% this week" accent="purple" />
         <StatCard label="Approved" value={approved.toString()} icon={CheckCircle2} trend="12% this week" accent="green" />
@@ -101,7 +102,7 @@ export default function OverviewPage() {
       </div>
 
       {/* Mini recent applications preview */}
-      <div className="rounded-3xl border border-white/10 bg-white/[0.05] backdrop-blur-xl p-5 lg:p-6">
+      <div className="rounded border border-white/10 bg-white/[0.05] backdrop-blur-xl p-5 lg:p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-white font-semibold text-base">Latest applications</h2>
           <Link href="/dashboard/applications" className="text-purple-300 text-xs font-medium hover:text-purple-200 transition-colors">
@@ -132,6 +133,6 @@ export default function OverviewPage() {
           ))}
         </div>
       </div>
-    </div>
+    </main>
   );
 }

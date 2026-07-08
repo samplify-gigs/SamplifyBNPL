@@ -5,6 +5,7 @@ import merchantRoutes from "./routes/merchantsignuproute.js";
 import MerchantVerify from "./routes/merchantverify.js";
 import Merchantlogin from "./routes/merchantlogin.js";
 import cookieparser from "cookie-parser";
+import merchanttokenver from "./routes/merchanttokenverify.js";
 const app = express();
 
 app.use(
@@ -19,5 +20,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/merchant", merchantRoutes);
 app.use("/api/merchantverify", MerchantVerify);
 app.use("/api/merchantlogin", Merchantlogin);
+app.use("/api/merchantdash", merchanttokenver);
 
 export default app;

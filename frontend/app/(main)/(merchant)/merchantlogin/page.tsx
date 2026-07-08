@@ -42,6 +42,7 @@ export default function MerchantLogin() {
         "http://localhost:8080/api/merchantlogin/merchantlogin",
         {
           method: "POST",
+          credentials: "include",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(loginData),
         },
@@ -61,7 +62,7 @@ export default function MerchantLogin() {
         }
       } else {
         setSuccess(data.message);
-        router.push("/merchantdashboard");
+        router.push("/merchantDashboard");
       }
     } catch (err) {
       console.error(`error sending login data: ${err}`);

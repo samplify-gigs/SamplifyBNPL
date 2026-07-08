@@ -50,16 +50,16 @@ export async function merchantlogin(req: Request, res: Response) {
     }
 
     const payload = { userEmail: email, userPassword: password };
-    
+
     const token = jwt.sign(payload, "secret-key-for-now", {
-      expiresIn: "1h",
+      expiresIn: "2d",
     });
-    console.log("before token", token);
-    res.cookie("login-jwt-token", token, {
+    console.log("the login generated token:", token);
+    res.cookie("login_jwt", token, {
       httpOnly: true,
       secure: false,
-      sameSite: "strict",
-      maxAge: 3600000,
+      sameSite: "lax",
+      maxAge: 2 * 24 * 60 * 60 * 1000,
     });
 
     res.status(200).json({

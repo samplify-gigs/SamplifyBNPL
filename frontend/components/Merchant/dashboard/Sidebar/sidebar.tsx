@@ -11,11 +11,11 @@ import {
 } from "lucide-react";
 
 const navItems = [
-  { label: "Overview", href: "/dashboard", icon: LayoutGrid },
-  { label: "Applications", href: "/dashboard/applications", icon: FileText },
-  { label: "Payment Links", href: "/dashboard/payment-links", icon: Link2 },
-  { label: "Customers", href: "/dashboard/customers", icon: Users },
-  { label: "Settings", href: "/dashboard/settings", icon: Settings },
+  { label: "Overview", href: "/merchantDashboard", icon: LayoutGrid },
+  { label: "Applications", href: "/merchantDashboard/applicationPage", icon: FileText },
+  { label: "Payment Links", href: "/merchantDashboard/payment-links", icon: Link2 },
+  { label: "Customers", href: "/merchantDashboard/customersPage", icon: Users },
+  { label: "Settings", href: "/merchantDashboard/settingsPage", icon: Settings },
 ];
 
 export default function Sidebar() {
@@ -24,7 +24,7 @@ export default function Sidebar() {
   return (
     <>
       {/* ── Desktop fixed sidebar ── */}
-      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-screen w-64 px-5 py-7 border-r border-white/10 bg-[#10002B]/60 backdrop-blur-2xl z-40">
+      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-screen w-64 px-5 py-7 border-r border-white/10 bg-[image:var(--bg-gradient)] backdrop-blur-2xl z-40">
         {/* Logo */}
         <div className="flex items-center gap-2 px-2 mb-10">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#7B2FBE] to-[#9D4EDD] flex items-center justify-center">

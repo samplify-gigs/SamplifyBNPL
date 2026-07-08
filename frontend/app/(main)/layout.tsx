@@ -25,10 +25,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      data-scroll-behavior="smooth"
+      className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}
     >
       <body
-        className=" flex flex-col h-full bg-[#9D4EDD]/5
+        className=" flex flex-col min-h-screen bg-[#9D4EDD]/5
       "
       >
         {children}
