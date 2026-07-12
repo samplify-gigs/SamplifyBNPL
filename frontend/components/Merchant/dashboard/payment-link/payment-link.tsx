@@ -12,8 +12,27 @@ export default function PaymentLinksGenerator() {
 
   function handleGenerate() {
     if (!label || !amount) return;
-    const slug = label.toLowerCase().replace(/\s+/g, "-").slice(0, 24);
-    setGeneratedUrl(`https://pay.samplify.app/${slug}-${Math.floor(Math.random() * 9000 + 1000)}`);
+    async function getLink() {
+      const res = await fetch(
+        "http://localhost:8080/api/samplifypay/paymentlink",
+        {
+          method: "POST",
+          headers: {
+            "content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            productName: label,
+            price: Number(amount),
+          }),
+        },
+      );
+
+      const data = await res.json();
+      console.log("the data from backend paymnet link:", data.data);
+      setGeneratedUrl(data.data);
+    }
+    getLink();
   }
 
   function handleCopy(url: string, id: string) {
@@ -26,11 +45,15 @@ export default function PaymentLinksGenerator() {
     <div className="flex flex-col gap-6">
       {/* Generator card */}
       <div className=" rounded md:rounded-3xl border border-white/10 bg-white/[0.05] backdrop-blur-xl p-5 lg:p-6">
-        <h2 className="text-white font-semibold text-base mb-4">Generate a payment link</h2>
+        <h2 className="text-white font-semibold text-base mb-4">
+          Generate a payment link
+        </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr_auto] gap-3">
           <div className="flex flex-col gap-1.5">
-            <label className="text-white/50 text-xs font-medium">Link label</label>
+            <label className="text-white/50 text-xs font-medium">
+              Link label
+            </label>
             <input
               value={label}
               onChange={(e) => setLabel(e.target.value)}
@@ -40,7 +63,9 @@ export default function PaymentLinksGenerator() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-white/50 text-xs font-medium">Amount (₦)</label>
+            <label className="text-white/50 text-xs font-medium">
+              Amount (₦)
+            </label>
             <input
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -53,7 +78,7 @@ export default function PaymentLinksGenerator() {
           <div className="flex flex-col gap-1.5 lg:justify-end">
             <button
               onClick={handleGenerate}
-              className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#7B2FBE] to-[#9D4EDD] text-white text-sm font-semibold shadow-[0_0_20px_rgba(157,78,221,0.35)] hover:shadow-[0_0_28px_rgba(157,78,221,0.5)] hover:scale-[1.02] transition-all duration-200 whitespace-nowrap"
+              className="px-6 py-2.5 rounded-xl cursor-pointer bg-gradient-to-r from-[#7B2FBE] to-[#9D4EDD] text-white text-sm font-semibold shadow-[0_0_20px_rgba(157,78,221,0.35)] hover:shadow-[0_0_28px_rgba(157,78,221,0.5)] hover:scale-[1.02] transition-all duration-200 whitespace-nowrap"
             >
               Generate link
             </button>
@@ -68,15 +93,23 @@ export default function PaymentLinksGenerator() {
             </div>
 
             <div className="flex-1 flex flex-col gap-1.5 min-w-0">
-              <span className="text-white/40 text-xs">Your new payment link</span>
-              <span className="text-white text-sm font-medium truncate">{generatedUrl}</span>
+              <span className="text-white/40 text-xs">
+                Your new payment link
+              </span>
+              <span className="text-white text-sm font-medium truncate">
+                {generatedUrl}
+              </span>
             </div>
 
             <button
               onClick={() => handleCopy(generatedUrl, "new")}
               className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-white/10 bg-white/[0.06] text-white/80 text-xs font-medium hover:bg-white/[0.12] transition-all duration-200 flex-shrink-0"
             >
-              {copiedId === "new" ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+              {copiedId === "new" ? (
+                <Check size={14} className="text-emerald-400" />
+              ) : (
+                <Copy size={14} />
+              )}
               {copiedId === "new" ? "Copied" : "Copy link"}
             </button>
           </div>
@@ -85,7 +118,9 @@ export default function PaymentLinksGenerator() {
 
       {/* Recent links */}
       <div className="rounded-3xl border border-white/10 bg-white/[0.05] backdrop-blur-xl p-5 lg:p-6">
-        <h2 className="text-white font-semibold text-base mb-4">Recent links</h2>
+        <h2 className="text-white font-semibold text-base mb-4">
+          Recent links
+        </h2>
 
         <div className="flex flex-col gap-3">
           {mockPaymentLinks.map((link) => (
@@ -98,21 +133,33 @@ export default function PaymentLinksGenerator() {
               </div>
 
               <div className="flex-1 flex flex-col gap-0.5 min-w-0">
-                <span className="text-white text-sm font-medium truncate">{link.label}</span>
-                <span className="text-white/40 text-xs truncate">{link.url}</span>
+                <span className="text-white text-sm font-medium truncate">
+                  {link.label}
+                </span>
+                <span className="text-white/40 text-xs truncate">
+                  {link.url}
+                </span>
               </div>
 
               <div className="flex items-center gap-4 flex-shrink-0">
                 <div className="flex flex-col items-end">
-                  <span className="text-white/80 text-sm font-medium">{formatNaira(link.amount)}</span>
-                  <span className="text-white/30 text-xs">{link.uses} uses</span>
+                  <span className="text-white/80 text-sm font-medium">
+                    {formatNaira(link.amount)}
+                  </span>
+                  <span className="text-white/30 text-xs">
+                    {link.uses} uses
+                  </span>
                 </div>
 
                 <button
                   onClick={() => handleCopy(link.url, link.id)}
                   className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-white/10 bg-white/[0.06] text-white/70 text-xs font-medium hover:bg-white/[0.12] transition-all duration-200"
                 >
-                  {copiedId === link.id ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                  {copiedId === link.id ? (
+                    <Check size={13} className="text-emerald-400" />
+                  ) : (
+                    <Copy size={13} />
+                  )}
                   {copiedId === link.id ? "Copied" : "Copy"}
                 </button>
               </div>

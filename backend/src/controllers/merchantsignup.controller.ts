@@ -1,7 +1,7 @@
 import { type Request, type Response } from "express";
 import { signupSchema } from "../zod/schema.js";
 import { pool } from "../DB/db.js";
-import crypto from "node:crypto";
+import crypto, { randomUUID } from "node:crypto";
 import { Resend } from "resend";
 import bcrypt from "bcrypt";
 
@@ -29,8 +29,6 @@ export async function MerchantSignup(req: Request, res: Response) {
       primaryNumber,
       secondaryPhone,
     } = result.data;
-
-    console.log("this is the result data", result.data);
     const existingEmail = await pool.query(
       `SELECT id FROM Merchant WHERE email_address = $1`,
       [email],
@@ -45,13 +43,12 @@ export async function MerchantSignup(req: Request, res: Response) {
       });
     }
 
-    
-
     const saltRounds = 10;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    console.log(`hashed pass: ${hashedPassword}`);
     const token = crypto.randomBytes(32).toString("hex");
+    const merchantId = randomUUID();
     const expiredTime = new Date(Date.now() + 5 * 60 * 1000);
+    
 
     await pool.query(
       `INSERT INTO Merchant (
@@ -65,8 +62,9 @@ export async function MerchantSignup(req: Request, res: Response) {
         secondary_number,
         expires_at,
         token,
-        password
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10)`,
+        password,
+        merchantid
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9,$10,$11)`,
       [
         businessName,
         email,
@@ -78,6 +76,7 @@ export async function MerchantSignup(req: Request, res: Response) {
         expiredTime,
         token,
         hashedPassword,
+        merchantId,
       ],
     );
 

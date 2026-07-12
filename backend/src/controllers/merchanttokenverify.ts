@@ -1,5 +1,6 @@
 import { type Request, type Response, type NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import { pool } from "../DB/db.js";
 
 export async function MerchantTokenVerify(
   req: Request,
@@ -7,8 +8,7 @@ export async function MerchantTokenVerify(
   next: NextFunction,
 ) {
   const token = req.cookies.login_jwt;
-  const payload = req.body;
-  console.log("token back:", token);
+
   if (!token) {
     return res.status(401).json({
       message: "empty token",
@@ -16,13 +16,32 @@ export async function MerchantTokenVerify(
   }
 
   try {
-    const decoded = jwt.verify(token, "secret-key-for-now");
-    req.body = decoded;
+    const decoded = jwt.verify(token, "secret-key-for-now") as {
+      merchant_id: string;
+    };
+
+    const activeMerchant = await pool.query(
+      `
+      select merchantid, email_address from merchant where merchantid = $1
+      `,
+      [decoded.merchant_id],
+    );
+
+    console.log("checking merchant:", activeMerchant.rows[0]);
+
+    if (activeMerchant.rowCount === 0) {
+      return res.status(401).json({
+        message: "merchant not found",
+      });
+    }
+
+    req.merchant = activeMerchant.rows[0];
+
     next();
   } catch (err) {
     console.error("token verify error", err);
     res.status(401).json({
-      message: "server could not process any token",
+      message: "Unauthorized",
     });
   }
 }

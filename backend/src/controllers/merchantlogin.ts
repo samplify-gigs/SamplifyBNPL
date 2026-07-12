@@ -21,10 +21,11 @@ export async function merchantlogin(req: Request, res: Response) {
     const { email, password } = result.data;
     const existingUser = await pool.query(
       `select email_address,email_verified,
-       password , is_manualverified from Merchant where email_address = $1`,
+       password , is_manualverified, merchantid from Merchant where email_address = $1`,
       [email],
     );
     const user = existingUser.rows[0];
+
     if (existingUser.rows.length === 0) {
       return res.status(400).json({
         message: "invalid credentials",
@@ -49,17 +50,17 @@ export async function merchantlogin(req: Request, res: Response) {
       });
     }
 
-    const payload = { userEmail: email, userPassword: password };
+    const payload = { merchant_id: user.merchantid };
 
     const token = jwt.sign(payload, "secret-key-for-now", {
-      expiresIn: "2d",
+      expiresIn: "3h",
     });
-    console.log("the login generated token:", token);
+
     res.cookie("login_jwt", token, {
       httpOnly: true,
       secure: false,
       sameSite: "lax",
-      maxAge: 2 * 24 * 60 * 60 * 1000,
+      maxAge: 3 * 60 * 60 * 1000,
     });
 
     res.status(200).json({

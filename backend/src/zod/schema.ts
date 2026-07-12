@@ -28,3 +28,13 @@ export const merchantLoginSchema = z.object({
   email: z.email("Invalid email address"),
   password: z.string().min(1, "password is required"),
 });
+
+export const paymentLink = z.object({
+  productName: z
+    .string()
+    .trim()
+    .min(3, "product details must be at least 3 characters")
+    .max(255, "product details cannot exceed 255 characters"),
+
+  price: z.number().positive("price must be greater than 0"),
+});
