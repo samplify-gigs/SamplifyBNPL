@@ -1,1 +1,8 @@
-GET  http://localhost:8080/api/merchantdash/dashboard
+POST   http://localhost:8080/api/customerbidbvn/customerbvn/otp
+Content-Type: application/json
+
+
+{
+  "otp":"5759999"  
+}
+
