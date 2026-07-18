@@ -24,8 +24,9 @@ export async function merchantlogin(req: Request, res: Response) {
        password , is_manualverified, merchantid from Merchant where email_address = $1`,
       [email],
     );
-    const user = existingUser.rows[0];
 
+    const user = existingUser.rows[0];
+    
     if (existingUser.rows.length === 0) {
       return res.status(400).json({
         message: "invalid credentials",

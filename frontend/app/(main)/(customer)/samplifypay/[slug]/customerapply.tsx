@@ -1,12 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
-import { useSearchParams, useParams } from "next/navigation";
+import React, { useState } from "react";
+import { useParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import {
-  EyeIcon,
-  EyeOffIcon,
-} from "@/components/Merchant/eyeIconPassword/eyeIcon";
 import {
   ErrorBanner,
   FieldError,
@@ -14,7 +10,7 @@ import {
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-type Step = 0 | 1 | 2;
+type Step = 0 | 1 | 2 | 3;
 
 type CustomerInfo = {
   product: string;
@@ -41,6 +37,12 @@ type BvnData = {
   bvn: string;
   name: string;
   phone: string; // partially masked e.g. "080****5678"
+};
+
+type EligibilityData = {
+  full_name: string;
+  creditscore: number;
+  bank: string;
 };
 
 // ─── Slide variants ───────────────────────────────────────────────────────────
@@ -492,6 +494,80 @@ function StepBvnDetails({
   );
 }
 
+// ---- Step 3- lookup feedabck from backend
+
+function StepEligibility({
+  light,
+  data,
+}: {
+  light?: boolean;
+  data: EligibilityData;
+}) {
+  const approved = data.creditscore >= 400;
+
+  const headerText = light ? "text-[#10002B]" : "text-white";
+  const subText = light ? "text-gray-500" : "text-white/50";
+
+  const card = light
+    ? "border border-gray-200 bg-gray-50"
+    : "border border-white/10 bg-white/[0.05]";
+
+  return (
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2 text-center">
+        <div className="text-6xl">{approved ? "✅" : "❌"}</div>
+
+        <span className="text-xs uppercase tracking-widest text-[#7B2FBE]">
+          Eligibility Result
+        </span>
+
+        <h1 className={`${headerText} text-3xl font-bold`}>
+          {approved ? "You're Approved!" : "Application Not Approved"}
+        </h1>
+
+        <p className={`${subText}`}>
+          {approved
+            ? "Congratulations! You qualify for financing."
+            : "Unfortunately your credit score doesn't meet the minimum requirement at this time."}
+        </p>
+      </div>
+
+      <div className={`${card} rounded-2xl p-5 flex flex-col gap-4`}>
+        <div className="flex justify-between">
+          <span className={subText}>Applicant</span>
+          <span className={headerText}>{data.full_name}</span>
+        </div>
+
+        <div className="flex justify-between">
+          <span className={subText}>Bank</span>
+          <span className={headerText}>{data.bank}</span>
+        </div>
+
+        <div className="flex justify-between">
+          <span className={subText}>Credit Score</span>
+          <span
+            className={`font-bold ${
+              approved ? "text-emerald-500" : "text-red-500"
+            }`}
+          >
+            {data.creditscore}
+          </span>
+        </div>
+      </div>
+
+      <button
+        className={`w-full py-3.5 rounded-2xl text-white font-semibold ${
+          approved
+            ? "bg-gradient-to-r from-[#7B2FBE] to-[#9D4EDD]"
+            : "bg-gray-500"
+        }`}
+      >
+        {approved ? "Continue" : "Close"}
+      </button>
+    </div>
+  );
+}
+
 // ─── Shared card shell ────────────────────────────────────────────────────────
 
 function MobileCard({ children }: { children: React.ReactNode }) {
@@ -596,6 +672,11 @@ export default function CustomerApply() {
   // Show verify modal as an overlay on step 1
   const [showModal, setShowModal] = useState(false);
   const [chosenMethod, setChosenMethod] = useState<VerifyMethod | null>(null);
+  const [eligibilityData, setEligibilityData] = useState<EligibilityData>({
+    full_name: "",
+    creditscore: 0,
+    bank: "",
+  });
 
   function goTo(nextStep: Step) {
     setDirection(nextStep > step ? 1 : -1);
@@ -692,14 +773,52 @@ export default function CustomerApply() {
       }
       setBvnData({
         bvn: data.data.data.bvn,
-        name: data.data.data.name,
+        name: data.data.data.last_name,
         phone: data.data.data.phone,
       });
 
       // success → navigate to next step (will add later)
-      goTo(2); // replace with goTo(3) when next step is added
+      goTo(3); // replace with goTo(3) when next step is added
     } catch {
       setError("Couldn't reach the server. Check your connection.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function checkEligibility() {
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch(
+        "http://localhost:8080/api/customerbidbvn/customerbvn/creditlookup",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            sessionId,
+            bvn: bvnData.bvn,
+          }),
+        },
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.message ?? "Lookup failed.");
+        return;
+      }
+
+      setEligibilityData({
+        full_name: data.data.full_name,
+        creditscore: data.data.creditscore,
+        bank: data.data.bank,
+      });
+
+      goTo(3);
     } finally {
       setLoading(false);
     }
@@ -743,9 +862,11 @@ export default function CustomerApply() {
           <StepBvnDetails
             light={light}
             bvnData={bvnData}
-            onContinue={() => goTo(3)} // step 3 = eligibility, build later
+            onContinue={checkEligibility} // step 3 = eligibility, build later
           />
         )}
+
+        {step === 3 && <StepEligibility light={light} data={eligibilityData} />}
       </motion.div>
     </AnimatePresence>
   );

@@ -38,3 +38,9 @@ export const paymentLink = z.object({
 
   price: z.number().positive("price must be greater than 0"),
 });
+
+export const loanAppSchema = z.object({
+  productlinkid: z.coerce.number(),
+  creditScore: z.coerce.number(),
+  months: z.coerce.number(),
+});

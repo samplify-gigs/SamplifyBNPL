@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { MerchantTokenVerify } from "../controllers/merchanttokenverify.js";
+import { paymentlinkGenerator } from "../controllers/paymentLink.js";
 
 const router = Router();
 
@@ -9,5 +10,6 @@ router.get("/dashboard", (req, res) => {
     message: "welcone to your dashboard",
   });
 });
+router.post("/dashboard/paymentlink", paymentlinkGenerator);
 
 export default router;

@@ -22,12 +22,12 @@ export async function MerchantTokenVerify(
 
     const activeMerchant = await pool.query(
       `
-      select merchantid, email_address from merchant where merchantid = $1
+      select merchantid AS merchant_id, email_address from merchant where merchantid = $1
       `,
       [decoded.merchant_id],
     );
 
-    console.log("checking merchant:", activeMerchant.rows[0]);
+    
 
     if (activeMerchant.rowCount === 0) {
       return res.status(401).json({

@@ -1,8 +1,11 @@
-POST   http://localhost:8080/api/customerbidbvn/customerbvn/otp
+POST   http://localhost:8080/api/customerbidbvn/customerbvn/loanapplication
 Content-Type: application/json
 
 
 {
-  "otp":"5759999"  
+  "productlinkid": 7685,
+  "creditScore": 450,
+  "months": 2
+
 }
 

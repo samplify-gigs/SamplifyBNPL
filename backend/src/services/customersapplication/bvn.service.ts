@@ -48,6 +48,18 @@ export async function verifyOtpfromBvn(otp: string) {
       dob: "2020-01-06",
       lga_of_residence: "yaba",
       bvn: 43637673996,
+      phone: "080695858584",
     },
+  };
+}
+
+export async function lookupcredithistoryBvn(bvn: string) {
+  const randomCreditScore = Math.floor(Math.random() * (800 - 200 + 1)) + 200;
+  return {
+    status: "successful",
+    message: "Report fetched",
+    full_name: "Samuel Jacobs",
+    creditscore: 700,
+    bank: "Access",
   };
 }
