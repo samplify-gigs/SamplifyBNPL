@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { SpreadData } from "@/components/customer/customeruitls/fieldstyles";
 import {
   MonthSelector,
@@ -24,6 +24,8 @@ export default function SpreadPage() {
   const [confirmed, setConfirmed] = useState(false);
   const productlinkid = Number(params.loanapplication);
   const creditScore = Number(searchParams.get("query"));
+
+  console.log("month selected:", selectedMonths);
 
   async function fetchSpread(
     productlinkid: number,
@@ -64,7 +66,7 @@ export default function SpreadPage() {
 
   function handleMonthChange(m: number) {
     setSelectedMonths(m);
-    fetchSpread(m);
+    fetchSpread(productlinkid, creditScore, m);
   }
 
   async function handleConfirm() {

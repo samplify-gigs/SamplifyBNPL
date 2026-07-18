@@ -102,13 +102,19 @@ export function DataRow({
   label,
   value,
   highlight,
+  loading,
 }: {
   label: string;
   value: string;
   highlight?: boolean;
+  loading?: boolean;
 }) {
   return (
-    <div className="flex items-center justify-between py-3 border-b border-gray-100 last:border-0">
+    <div
+      className={`flex items-center justify-between py-3 border-b border-gray-100 last:border-0 transition-opacity duration-300 ${
+        loading ? "opacity-40" : "opacity-100"
+      }`}
+    >
       <span className="text-gray-500 text-sm">{label}</span>
       <span
         className={`text-sm ${
@@ -374,43 +380,51 @@ export function FormPanel({
               label="Product price"
               value={formatNaira(spreadData.price)}
               light={light}
+              loading={loading}
             />
             <DataRow
               label="Interest rate"
               value={formatPercent(spreadData.interestRate)}
               light={light}
+              loading={loading}
             />
             <DataRow
               label="Interest amount"
               value={formatNaira(spreadData.interest)}
               light={light}
+              loading={loading}
             />
             <DataRow
               label="Total payable"
               value={formatNaira(spreadData.totalPrice)}
               light={light}
               highlight
+              loading={loading}
             />
             <DataRow
               label="Down payment"
               value={`${formatNaira(spreadData.downPayment)} (${formatPercent(spreadData.downPaymentRate)})`}
               light={light}
+              loading={loading}
             />
             <DataRow
               label="Remaining balance"
               value={formatNaira(spreadData.remainingBalance)}
               light={light}
+              loading={loading}
             />
             <DataRow
               label="Monthly payment"
               value={formatNaira(spreadData.monthlyPayment)}
               light={light}
               highlight
+              loading={loading}
             />
             <DataRow
               label="Repayment period"
               value={`${spreadData.months} months`}
               light={light}
+              loading={loading}
             />
           </>
         ) : null}
@@ -464,8 +478,6 @@ export function FormPanel({
   );
 }
 
-
-
 // ─── Summary card — the big number box ───────────────────────────────────────
 
 export function SummaryCard({
@@ -492,19 +504,21 @@ export function SummaryCard({
           Monthly payment
         </span>
 
-        {loading ? (
-          <div className="w-48 h-14 rounded-2xl bg-white/10 animate-pulse my-1" />
-        ) : (
+        <div
+          className={`transition-opacity duration-300 ${loading ? "opacity-40" : "opacity-100"}`}
+        >
           <div className="flex items-end gap-1">
             <span className="text-white text-5xl font-bold tracking-tight">
               {spreadData ? formatNaira(spreadData.monthlyPayment) : "—"}
             </span>
             <span className="text-white/40 text-base mb-1.5">/mo</span>
           </div>
-        )}
+        </div>
 
         {/* Mini stats row */}
-        <div className="flex items-center gap-1 mt-1">
+        <div
+          className={`flex items-center gap-1 mt-1 transition-opacity duration-300 ${loading ? "opacity-40" : "opacity-100"}`}
+        >
           <div
             className="flex items-center gap-4 px-5 py-2.5 rounded-2xl"
             style={{ background: "rgba(255,255,255,0.08)" }}
