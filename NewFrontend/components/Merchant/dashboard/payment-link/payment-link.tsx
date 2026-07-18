@@ -14,7 +14,7 @@ export default function PaymentLinksGenerator() {
     if (!label || !amount) return;
     async function getLink() {
       const res = await fetch(
-        "http://localhost:8080/api/samplifypay/paymentlink",
+        "http://localhost:8080/api/merchantdash/dashboard/paymentlink",
         {
           method: "POST",
           headers: {
