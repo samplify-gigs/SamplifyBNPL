@@ -1,0 +1,46 @@
+import Link from "next/link";
+const navLinks = [
+  {
+    title: "About us",
+    className:
+      "hover:text-[#9D4EDD]/70  transition-colors duration-200 cursor-pointer",
+    href: "/customerlogin",
+  },
+  {
+    title: "Login",
+    className:
+      "hover:text-[#9D4EDD]/70 transition-colors duration-200 cursor-pointer",
+    href: "/merchantlogin",
+  },
+  {
+    title: "Get started",
+    className:
+      "px-4 py-1.5 rounded-full text-[#9D4EDD] text-sm font-medium border border-white/15 bg-purple-500/25 hover:bg-[#9D4EDD]/40 transition-all duration-200 cursor-pointer",
+    href: "/MerchantSignup",
+  },
+];
+
+export default function NavBar() {
+  return (
+    <div className="fixed top-4 left-0 right-0 z-50 flex justify-center px-4">
+      <nav
+        className="w-full max-w-5xl md:w-[90%] text-[#7B2FBE] flex items-center justify-between px-6 py-3 rounded-full border border-[#9D4EDD]/50 bg-white/[0.06] 
+      backdrop-blur-lg shadow-[0_4px_32px_rgba(90,24,154,0.25),inset_0_1px_0_rgba(255,255,255,0.08)]"
+      >
+        {/* Logo */}
+        <span className="font-semibold text-lg tracking-wide">Samplify</span>
+
+        {/* Nav links */}
+        <div className="flex items-center gap-6 text-sm text-[#9D4EDD]">
+          {navLinks.map((nav) => {
+            return (
+              <Link key={nav.title} className={nav.className} href={nav.href}>
+                {nav.title}
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
+    </div>
+  );
+}

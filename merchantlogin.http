@@ -1,0 +1,11 @@
+POST   http://localhost:8080/api/customerbidbvn/customerbvn/linktopay
+Content-Type: application/json
+
+
+{
+  "paymentlinkid": 5252,
+  "creditScore": 700,
+  "months": 4
+  
+}
+
