@@ -1,16 +1,22 @@
+import Link from "next/link";
 const navLinks = [
   {
     title: "About us",
-    className: "hover:text-[#9D4EDD]/70  transition-colors duration-200 cursor-pointer",
+    className:
+      "hover:text-[#9D4EDD]/70  transition-colors duration-200 cursor-pointer",
+    href: "/customerlogin",
   },
   {
     title: "Login",
-    className: "hover:text-[#9D4EDD]/70 transition-colors duration-200 cursor-pointer",
+    className:
+      "hover:text-[#9D4EDD]/70 transition-colors duration-200 cursor-pointer",
+    href: "/merchantlogin",
   },
   {
     title: "Get started",
     className:
       "px-4 py-1.5 rounded-full text-[#9D4EDD] text-sm font-medium border border-white/15 bg-purple-500/25 hover:bg-[#9D4EDD]/40 transition-all duration-200 cursor-pointer",
+    href: "/MerchantSignup",
   },
 ];
 
@@ -28,9 +34,9 @@ export default function NavBar() {
         <div className="flex items-center gap-6 text-sm text-[#9D4EDD]">
           {navLinks.map((nav) => {
             return (
-              <span key={nav.title} className={nav.className}>
+              <Link key={nav.title} className={nav.className} href={nav.href}>
                 {nav.title}
-              </span>
+              </Link>
             );
           })}
         </div>

@@ -1,11 +1,11 @@
-POST   http://localhost:8080/api/customerbidbvn/customerbvn/loanapplication
+POST   http://localhost:8080/api/customerbidbvn/customerbvn/linktopay
 Content-Type: application/json
 
 
 {
-  "productlinkid": 4276,
+  "paymentlinkid": 5252,
   "creditScore": 700,
   "months": 4
-
+  
 }
 

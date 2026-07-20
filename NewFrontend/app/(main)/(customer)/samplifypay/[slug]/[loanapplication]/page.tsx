@@ -9,23 +9,22 @@ import {
   formatNaira,
   formatPercent,
 } from "@/components/customer/customeruitls/fieldstyles";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export default function SpreadPage() {
   const params = useParams();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const [selectedMonths, setSelectedMonths] = useState(2);
   const [spreadData, setSpreadData] = useState<SpreadData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [confirming, setConfirming] = useState(false);
-  const [confirmed, setConfirmed] = useState(false);
+  const [confirmed, setConfirmed] = useState(true);
   const productlinkid = Number(params.loanapplication);
   const creditScore = Number(searchParams.get("query"));
-
-  console.log("month selected:", selectedMonths);
 
   async function fetchSpread(
     productlinkid: number,
@@ -72,8 +71,32 @@ export default function SpreadPage() {
   async function handleConfirm() {
     setConfirming(true);
     await new Promise((r) => setTimeout(r, 1000));
-    setConfirmed(true);
+
     setConfirming(false);
+    try {
+      const res = await fetch(
+        "http://localhost:8080/api/customerbidbvn/customerbvn/linktopay",
+        {
+          method: "POST",
+          headers: {
+            "content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            paymentlinkid: productlinkid,
+            months: selectedMonths,
+            creditScore,
+          }),
+        },
+      );
+
+      const data = await res.json();
+      console.log("this is link payment data", data);
+      if (res.ok) {
+        router.push(`/linktopayment/${productlinkid}`);
+      }
+    } catch (err) {
+      console.log("this error link payment:", err);
+    }
   }
 
   return (
@@ -166,33 +189,14 @@ export default function SpreadPage() {
         )}
 
         {/* CTA */}
-        {confirmed ? (
-          <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4">
-            <svg
-              className="w-5 h-5 text-emerald-600 flex-shrink-0"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4.5 12.75l6 6 9-13.5"
-              />
-            </svg>
-            <p className="text-emerald-700 text-sm font-medium">
-              Application submitted! We'll be in touch shortly.
-            </p>
-          </div>
-        ) : (
+        {confirmed && (
           <button
             onClick={handleConfirm}
             disabled={!spreadData || loading || confirming}
             className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#7B2FBE] to-[#9D4EDD] text-white font-semibold text-sm shadow-[0_4px_20px_rgba(123,47,190,0.35)] hover:shadow-[0_4px_32px_rgba(123,47,190,0.5)] hover:scale-[1.01] transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             {confirming
-              ? "Submitting..."
+              ? "processing..."
               : `Confirm ${selectedMonths}-month plan →`}
           </button>
         )}
@@ -300,7 +304,7 @@ export default function SpreadPage() {
                 Choose your plan
               </h1>
               <p className="text-gray-400 text-sm">
-                Select how many months you'd like to spread your payments.
+                Select how many months you&apos;d like to spread your payments.
               </p>
             </div>
 
@@ -369,39 +373,20 @@ export default function SpreadPage() {
               ) : null}
             </div>
 
-            {confirmed ? (
-              <div className="flex items-center gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-4">
-                <svg
-                  className="w-5 h-5 text-emerald-600 flex-shrink-0"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2.5}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4.5 12.75l6 6 9-13.5"
-                  />
-                </svg>
-                <p className="text-emerald-700 text-sm font-medium">
-                  Application submitted! We'll be in touch shortly.
-                </p>
-              </div>
-            ) : (
+            {confirmed && (
               <button
                 onClick={handleConfirm}
                 disabled={!spreadData || loading || confirming}
                 className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#7B2FBE] to-[#9D4EDD] text-white font-semibold text-sm shadow-[0_4px_20px_rgba(123,47,190,0.35)] hover:shadow-[0_4px_32px_rgba(123,47,190,0.5)] hover:scale-[1.01] transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {confirming
-                  ? "Submitting..."
+                  ? "processing..."
                   : `Confirm ${selectedMonths}-month plan →`}
               </button>
             )}
 
             <p className="text-center text-gray-400 text-xs">
-              By confirming you agree to Samplify's financing terms. Down
+              By confirming you agree to Samplify&apos;s financing terms. Down
               payment is collected at checkout.
             </p>
           </div>

@@ -15,7 +15,6 @@ export default function HomeBody() {
               <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse" />
               Flexible financing on your terms
             </div>
-            
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white  leading-[1.1] tracking-tight mb-5 mt-3">
@@ -46,7 +45,7 @@ export default function HomeBody() {
 
               <div className="flex gap-2">
                 <Link
-                  href=""
+                  href="/merchantlogin"
                   className="flex-1 object-center flex sm:flex-none cursor-pointer px-6 py-3 rounded-full border border-white/15 bg-white/[0.06] backdrop-blur-sm text-white/80 text-sm font-medium hover:bg-white/10 transition-all duration-200"
                 >
                   <button>Merchant Login</button>
@@ -188,7 +187,8 @@ export default function HomeBody() {
                 ))}
               </div>
               <p className="text-white/70 text-xs leading-relaxed">
-                "Got my laptop on a plan that actually made sense. Zero stress."
+                &quot; Got my laptop on a plan that actually made sense. Zero
+                stress &quot;
               </p>
               <p className="text-white/40 text-[10px]">
                 — Rated 4.9 from 400k+ reviews

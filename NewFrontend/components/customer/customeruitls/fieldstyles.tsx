@@ -72,6 +72,9 @@ export type SpreadData = {
   monthlyPayment: number;
 };
 
+
+export type PaymentState = "idle" | "loading" | "success" | "error";
+
 // ─── Slide variants ───────────────────────────────────────────────────────────
 
 export const slideVariants = {
@@ -563,6 +566,162 @@ export function SummaryCard({
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Card number formatter ────────────────────────────────────────────────────
+
+export function formatCardNumber(value: string) {
+  return value
+    .replace(/\D/g, "")
+    .slice(0, 16)
+    .replace(/(.{4})/g, "$1 ")
+    .trim();
+}
+
+export function formatExpiry(value: string) {
+  const cleaned = value.replace(/\D/g, "").slice(0, 4);
+  if (cleaned.length >= 3) {
+    return cleaned.slice(0, 2) + "/" + cleaned.slice(2);
+  }
+  return cleaned;
+}
+
+
+
+// ─── Visual credit card ───────────────────────────────────────────────────────
+
+export function VisualCard({
+  cardNumber,
+  expiry,
+  cvv,
+}: {
+  cardNumber: string;
+  expiry: string;
+  cvv: string;
+}) {
+  const display = cardNumber || "**** **** **** ****";
+  const expiryDisplay = expiry || "MM/YY";
+
+  return (
+    <div
+      className="relative w-full rounded-2xl p-5 overflow-hidden"
+      style={{
+        background:
+          "radial-gradient(circle 200px at 20% 30%, #7B2FBE 0%, transparent 65%), radial-gradient(circle 150px at 85% 80%, #C77DFF 0%, transparent 55%), linear-gradient(135deg, #10002B 0%, #240046 60%, #3C096C 100%)",
+        boxShadow: "0 8px 32px rgba(90,24,154,0.4)",
+        minHeight: "160px",
+      }}
+    >
+      {/* Chip */}
+      <div className="w-8 h-6 rounded-md bg-gradient-to-br from-yellow-200/60 to-yellow-400/40 border border-yellow-300/20 mb-4" />
+
+      {/* Card number */}
+      <p className="text-white font-mono text-base tracking-widest mb-4">
+        {display.length > 4
+          ? display
+              .split(" ")
+              .map((g, i) =>
+                i < display.split(" ").length - 1 ? "••••" : g,
+              )
+              .join(" ")
+          : display}
+      </p>
+
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-white/40 text-[10px] uppercase tracking-wider mb-0.5">
+            Expires
+          </p>
+          <p className="text-white text-sm font-medium">{expiryDisplay}</p>
+        </div>
+        <div className="text-right">
+          <p className="text-white/40 text-[10px] uppercase tracking-wider mb-0.5">
+            CVV
+          </p>
+          <p className="text-white text-sm font-medium">
+            {cvv ? "•".repeat(cvv.length) : "•••"}
+          </p>
+        </div>
+        {/* Mastercard circles */}
+        <div className="flex -space-x-2">
+          <div className="w-7 h-7 rounded-full bg-red-500/70" />
+          <div className="w-7 h-7 rounded-full bg-yellow-400/70" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Success modal ────────────────────────────────────────────────────────────
+
+export function SuccessModal({
+  amount,
+  onDone,
+}: {
+  amount: string;
+  onDone: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4">
+      {/* Backdrop */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+
+      {/* Card */}
+      <div className="relative w-full max-w-sm bg-white rounded-3xl p-8 flex flex-col items-center gap-5 shadow-[0_24px_80px_rgba(0,0,0,0.2)]">
+        {/* Success icon */}
+        <div className="relative">
+          <div className="w-20 h-20 rounded-full bg-emerald-50 flex items-center justify-center">
+            <svg
+              className="w-10 h-10 text-emerald-500"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2.5}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M4.5 12.75l6 6 9-13.5"
+              />
+            </svg>
+          </div>
+          {/* Pulse rings */}
+          <div className="absolute inset-0 rounded-full bg-emerald-400/20 animate-ping" />
+        </div>
+
+        <div className="flex flex-col items-center gap-1.5 text-center">
+          <h2 className="text-[#10002B] text-2xl font-bold">
+            Payment successful!
+          </h2>
+          <p className="text-gray-400 text-sm leading-relaxed">
+            Your down payment of{" "}
+            <span className="font-semibold text-[#240046]">{amount}</span> has
+            been processed. We'll send you a confirmation shortly.
+          </p>
+        </div>
+
+        {/* Divider */}
+        <div className="w-full h-px bg-gray-100" />
+
+        {/* Loading bar — simulates redirect prep */}
+        <div className="w-full flex flex-col gap-2">
+          <div className="w-full h-1.5 rounded-full bg-gray-100 overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-[#7B2FBE] to-[#9D4EDD] rounded-full animate-[grow_2s_ease-in-out_forwards]" />
+          </div>
+          <p className="text-gray-400 text-xs text-center">
+            Preparing your dashboard...
+          </p>
+        </div>
+
+        <button
+          onClick={onDone}
+          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-[#7B2FBE] to-[#9D4EDD] text-white font-semibold text-sm shadow-[0_4px_20px_rgba(123,47,190,0.35)] hover:shadow-[0_4px_32px_rgba(123,47,190,0.5)] hover:scale-[1.01] transition-all duration-200"
+        >
+          Done →
+        </button>
       </div>
     </div>
   );

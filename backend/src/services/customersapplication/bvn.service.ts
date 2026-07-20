@@ -59,7 +59,7 @@ export async function lookupcredithistoryBvn(bvn: string) {
     status: "successful",
     message: "Report fetched",
     full_name: "Samuel Jacobs",
-    creditscore: 700,
+    creditscore: randomCreditScore,
     bank: "Access",
   };
 }
