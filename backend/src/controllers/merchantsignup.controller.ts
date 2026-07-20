@@ -5,10 +5,11 @@ import crypto, { randomUUID } from "node:crypto";
 import { Resend } from "resend";
 import bcrypt from "bcrypt";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+
 
 export async function MerchantSignup(req: Request, res: Response) {
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY);
     const result = signupSchema.safeParse(req.body);
 
     if (!result.success) {
@@ -48,7 +49,6 @@ export async function MerchantSignup(req: Request, res: Response) {
     const token = crypto.randomBytes(32).toString("hex");
     const merchantId = randomUUID();
     const expiredTime = new Date(Date.now() + 5 * 60 * 1000);
-    
 
     await pool.query(
       `INSERT INTO Merchant (

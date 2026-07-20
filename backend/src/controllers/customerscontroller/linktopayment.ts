@@ -25,15 +25,13 @@ export async function linkToPayment(req: Request, res: Response) {
     const result = await CustomerLoanApplication(id, score, month);
     const chosenPrice = result.downPayment;
 
-    {
-      const insertCustomerSession = await pool.query(
-        `
+    const insertCustomerSession = await pool.query(
+      `
     insert into customerpaymentsession(paymentlinkid,chosenprice)
     values($1,$2)
     `,
-        [paymentlinkid, chosenPrice],
-      );
-    }
+      [paymentlinkid, chosenPrice],
+    );
 
     return res.status(200).json({
       message: "success",

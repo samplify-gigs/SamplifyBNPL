@@ -58,6 +58,8 @@ export async function merchantlogin(req: Request, res: Response) {
       expiresIn: "3h",
     });
 
+    console.log("checking if token is still signing", token);
+
     res.cookie("login_jwt", token, {
       httpOnly: true,
       secure: false,
