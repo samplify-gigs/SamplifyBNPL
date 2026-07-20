@@ -26,7 +26,7 @@ export async function merchantlogin(req: Request, res: Response) {
     );
 
     const user = existingUser.rows[0];
-    
+
     if (existingUser.rows.length === 0) {
       return res.status(400).json({
         message: "invalid credentials",
@@ -52,8 +52,9 @@ export async function merchantlogin(req: Request, res: Response) {
     }
 
     const payload = { merchant_id: user.merchantid };
+    const myJtSec = process.env.JWT_SECRET!;
 
-    const token = jwt.sign(payload, "secret-key-for-now", {
+    const token = jwt.sign(payload, myJtSec, {
       expiresIn: "3h",
     });
 

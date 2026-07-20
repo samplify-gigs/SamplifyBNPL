@@ -8,6 +8,7 @@ export async function MerchantTokenVerify(
   next: NextFunction,
 ) {
   const token = req.cookies.login_jwt;
+  const myJtSec = process.env.JWT_SECRET!;
 
   if (!token) {
     return res.status(401).json({
@@ -16,7 +17,7 @@ export async function MerchantTokenVerify(
   }
 
   try {
-    const decoded = jwt.verify(token, "secret-key-for-now") as {
+    const decoded = jwt.verify(token, myJtSec) as {
       merchant_id: string;
     };
 
@@ -26,8 +27,6 @@ export async function MerchantTokenVerify(
       `,
       [decoded.merchant_id],
     );
-
-    
 
     if (activeMerchant.rowCount === 0) {
       return res.status(401).json({

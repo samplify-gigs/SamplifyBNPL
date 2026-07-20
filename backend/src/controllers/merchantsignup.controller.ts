@@ -5,7 +5,7 @@ import crypto, { randomUUID } from "node:crypto";
 import { Resend } from "resend";
 import bcrypt from "bcrypt";
 
-const resend = new Resend("re_RQDx2jLh_xsUcHvJe1tic9naLfcu3B5fe");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function MerchantSignup(req: Request, res: Response) {
   try {
