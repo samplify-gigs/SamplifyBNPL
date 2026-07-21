@@ -9,7 +9,7 @@ export function VerifyMethodModal({
   onChoose,
   light,
 }: {
-  options: VerifyOption[];
+  options: VerifyMethod[];
   loading: boolean;
   error: string;
   onChoose: (option: VerifyMethod) => void;
@@ -49,7 +49,7 @@ export function VerifyMethodModal({
           Verify your identity
         </h2>
         <p className={`${subText} text-sm`}>
-          Choose how you'd like us to confirm who you are.
+          Choose how you&apos;d like us to confirm who you are.
         </p>
       </div>
 
