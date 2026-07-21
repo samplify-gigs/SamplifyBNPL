@@ -83,7 +83,7 @@ export const slideVariants = {
   exit: (dir: number) => ({ x: dir > 0 ? "-100%" : "100%", opacity: 0 }),
 };
 
-export const slideTransition = { duration: 0.38, ease: [0.32, 0.72, 0, 1] };
+export const slideTransition = { duration: 0.38, ease: [0.32, 0.72, 0, 1] as const};
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
