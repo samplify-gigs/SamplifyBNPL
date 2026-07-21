@@ -37,7 +37,7 @@ export function StepCreditResult({
             Checking your credit
           </h1>
           <p className={`${subText} text-sm max-w-xs`}>
-            We're pulling your credit report. This only takes a moment.
+            We&apos;re pulling your credit report. This only takes a moment.
           </p>
         </div>
       </div>
