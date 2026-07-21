@@ -1,6 +1,6 @@
 import { ErrorBanner } from "@/components/Merchant/error-success-feedback/feedback";
 import { useState } from "react";
-import { VerifyOption } from "../customeruitls/fieldstyles";
+import { VerifyOption,VerifyMethod } from "../customeruitls/fieldstyles";
 
 export function VerifyMethodModal({
   options,
@@ -12,7 +12,7 @@ export function VerifyMethodModal({
   options: VerifyOption[];
   loading: boolean;
   error: string;
-  onChoose: (option: VerifyOption) => void;
+  onChoose: (option: VerifyMethod) => void;
   light?: boolean;
 }) {
   const [chosen, setChosen] = useState<string | null>(null);
