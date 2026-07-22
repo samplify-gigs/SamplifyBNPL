@@ -59,7 +59,7 @@ export default function CustomerApply() {
 
   // Show verify modal as an overlay on step 1
   const [showModal, setShowModal] = useState(false);
-  const [chosenMethod, setChosenMethod] = useState<VerifyMethod | null>(null);
+  const [chosenMethod, setChosenMethod] = useState<VerifyOption | null>(null);
 
   const [creditData, setCreditData] = useState<CreditData | null>(null);
   const [creditLoading, setCreditLoading] = useState(false);
@@ -102,7 +102,7 @@ export default function CustomerApply() {
   }
 
   // ── Step method — option chosen ─────────────────────────────────────────────────
-  async function submitVerifyChoice(option: VerifyMethod) {
+  async function submitVerifyChoice(option: VerifyOption) {
     setError("");
     setLoading(true);
     try {

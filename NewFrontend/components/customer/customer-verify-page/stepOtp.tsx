@@ -1,6 +1,6 @@
 import { ErrorBanner } from "@/components/Merchant/error-success-feedback/feedback";
 import { FieldError } from "@/components/Merchant/error-success-feedback/feedback";
-import { useFieldStyles } from "../customeruitls/fieldstyles";
+import { useFieldStyles, VerifyOption } from "../customeruitls/fieldstyles";
 import { useState } from "react";
 
 type VerifyMethod = {
@@ -18,7 +18,7 @@ export function StepOtp({
   onSubmit,
 }: {
   light?: boolean;
-  chosenMethod: VerifyMethod | null;
+  chosenMethod: VerifyOption | null;
   error: string;
   inputError: Record<string, string>;
   loading: boolean;
