@@ -63,6 +63,7 @@ export default function CustomerApply() {
 
   const [creditData, setCreditData] = useState<CreditData | null>(null);
   const [creditLoading, setCreditLoading] = useState(false);
+  const newURL = process.env.NEXT_PUBLIC_BASE_URL;
 
   function goTo(nextStep: Step) {
     setDirection(nextStep > step ? 1 : -1);
@@ -76,7 +77,7 @@ export default function CustomerApply() {
     setLoading(true);
     try {
       const res = await fetch(
-        "http://localhost:8080/api/customerbidbvn/customerbvnidentity",
+        `${newURL}/api/customerbidbvn/customerbvnidentity`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -107,7 +108,7 @@ export default function CustomerApply() {
     setLoading(true);
     try {
       const res = await fetch(
-        "http://localhost:8080/api/customerbidbvn/customerbvn/method",
+        `${newURL}/api/customerbidbvn/customerbvn/method`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -140,14 +141,11 @@ export default function CustomerApply() {
     setInputError({});
     setLoading(true);
     try {
-      const res = await fetch(
-        " http://localhost:8080/api/customerbidbvn/customerbvn/otp",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ sessionId, otp }),
-        },
-      );
+      const res = await fetch(`${newURL}/api/customerbidbvn/customerbvn/otp`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId, otp }),
+      });
       const data = await res.json();
       console.log("this data from bvn succefuk opt", data);
       console.log(data.data.data.bvn);
@@ -177,7 +175,7 @@ export default function CustomerApply() {
     goTo(3); // go to step 3 immediately, show spinner while loading
     try {
       const res = await fetch(
-        "http://localhost:8080/api/customerbidbvn/customerbvn/creditlookup",
+        `${newURL}/api/customerbidbvn/customerbvn/creditlookup`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

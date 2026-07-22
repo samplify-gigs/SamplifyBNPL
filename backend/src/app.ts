@@ -13,7 +13,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: "https://samplify-bnpl-25kn.vercel.app",
     credentials: true,
   }),
 );

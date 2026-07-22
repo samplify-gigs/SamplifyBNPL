@@ -72,6 +72,7 @@ export default function MerchantSignup() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+   const newURL = process.env.NEXT_PUBLIC_BASE_URL;
 
   async function SendinputsData() {
     setInputError({});
@@ -85,7 +86,7 @@ export default function MerchantSignup() {
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8080/api/merchant/register", {
+      const res = await fetch(`${newURL}/merchant/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inputsData),

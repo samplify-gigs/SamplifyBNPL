@@ -12,16 +12,14 @@ export default async function DashboardLayout({
 
   try {
     const cookieStore = await cookies();
+    const newURL = process.env.NEXT_PUBLIC_BASE_URL;
 
-    const res = await fetch(
-      "http://localhost:8080/api/merchantdash/dashboard",
-      {
-        headers: {
-          Cookie: cookieStore.toString(),
-        },
-        cache: "no-store",
+    const res = await fetch(`${newURL}/api/merchantdash/dashboard`, {
+      headers: {
+        Cookie: cookieStore.toString(),
       },
-    );
+      cache: "no-store",
+    });
 
     if (!res.ok) {
       isAuth = true;

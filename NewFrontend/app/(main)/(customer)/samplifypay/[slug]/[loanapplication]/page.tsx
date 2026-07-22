@@ -11,6 +11,8 @@ import {
 } from "@/components/customer/customeruitls/fieldstyles";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 
+const newURL = process.env.NEXT_PUBLIC_BASE_URL;
+
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 export default function SpreadPage() {
@@ -35,7 +37,7 @@ export default function SpreadPage() {
     setError("");
     try {
       const res = await fetch(
-        " http://localhost:8080/api/customerbidbvn/customerbvn/loanapplication",
+        ` ${newURL}/api/customerbidbvn/customerbvn/loanapplication`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -75,7 +77,7 @@ export default function SpreadPage() {
     setConfirming(false);
     try {
       const res = await fetch(
-        "http://localhost:8080/api/customerbidbvn/customerbvn/linktopay",
+        `${newURL}/api/customerbidbvn/customerbvn/linktopay`,
         {
           method: "POST",
           headers: {

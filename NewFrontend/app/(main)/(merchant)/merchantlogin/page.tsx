@@ -27,6 +27,9 @@ export default function MerchantLogin() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  
+
+  
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setLoginData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -36,17 +39,16 @@ export default function MerchantLogin() {
     setInputError({});
     setError("");
     setLoading(true);
+    const newURL = process.env.NEXT_PUBLIC_BASE_URL;
+    
 
     try {
-      const res = await fetch(
-        "http://localhost:8080/api/merchantlogin/merchantlogin",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(loginData),
-        },
-      );
+      const res = await fetch(`${newURL}/api/merchantlogin/merchantlogin`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginData),
+      });
 
       const data = await res.json();
 
@@ -128,7 +130,7 @@ export default function MerchantLogin() {
           <div className="h-px bg-white/10" />
 
           <p className="text-center text-white/40 text-xs pb-2">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <span className="text-purple-300 hover:text-purple-200 cursor-pointer transition-colors font-medium">
               Sign up here
             </span>
@@ -230,7 +232,7 @@ export default function MerchantLogin() {
           <div className="h-px bg-gray-100" />
 
           <p className="text-center text-gray-400 text-xs">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <span className="text-[#7B2FBE] hover:text-[#9D4EDD] cursor-pointer font-medium transition-colors">
               Sign up here
             </span>

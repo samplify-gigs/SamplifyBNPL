@@ -12,6 +12,7 @@ function VerifyContent() {
 
   const [state, setState] = useState<VerifyState>("loading");
   const [message, setMessage] = useState("");
+  const newURL = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
     async function verifyEmail() {
@@ -22,14 +23,11 @@ function VerifyContent() {
       }
 
       try {
-        const res = await fetch(
-          "http://localhost:8080/api/merchantverify/meremailverify",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ token }),
-          },
-        );
+        const res = await fetch(`${newURL}/api/merchantverify/meremailverify`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token }),
+        });
 
         const data = await res.json();
 
