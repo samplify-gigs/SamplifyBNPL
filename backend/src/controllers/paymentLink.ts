@@ -20,7 +20,9 @@ export async function paymentlinkGenerator(req: Request, res: Response) {
   const { productName, price } = result.data;
   const slug = productName.toLowerCase().replace(/\s+/g, "_").slice(0, 24);
   const paymentLinkId = Math.floor(Math.random() * 9000) + 1000;
-  const baseURL = `http://localhost:3000/samplifypay/${slug}_${paymentLinkId}`;
+  const newURL = process.env.BASE_URL;
+  const baseURL = `${newURL}/samplifypay/${slug}_${paymentLinkId}`;
+  
 
   try {
     await pool.query(

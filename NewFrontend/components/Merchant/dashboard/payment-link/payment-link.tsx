@@ -9,12 +9,13 @@ export default function PaymentLinksGenerator() {
   const [amount, setAmount] = useState("");
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
+  const newURL = process.env.NEXT_PUBLIC_BASE_URL;
 
   function handleGenerate() {
     if (!label || !amount) return;
     async function getLink() {
       const res = await fetch(
-        "http://localhost:8080/api/merchantdash/dashboard/paymentlink",
+        `${newURL}/api/merchantdash/dashboard/paymentlink`,
         {
           method: "POST",
           headers: {
@@ -29,7 +30,6 @@ export default function PaymentLinksGenerator() {
       );
 
       const data = await res.json();
-      console.log("the data from backend paymnet link:", data.data);
       setGeneratedUrl(data.data);
     }
     getLink();

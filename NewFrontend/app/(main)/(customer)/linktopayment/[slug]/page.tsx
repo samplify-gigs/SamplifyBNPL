@@ -31,11 +31,12 @@ export default function PaymentPage() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState("");
   const [chosenAmount, setChosenAmount] = useState("");
+  const newURL = process.env.NEXT_PUBLIC_BASE_URL;
 
   async function getChosenPrice() {
     try {
       const res = await fetch(
-        "http://localhost:8080/api/customerbidbvn/customerbvn/payment",
+        `${newURL}/api/customerbidbvn/customerbvn/payment`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

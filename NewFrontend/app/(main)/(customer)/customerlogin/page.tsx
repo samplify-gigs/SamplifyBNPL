@@ -27,6 +27,7 @@ export default function CustomerLogin() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const newURL = process.env.NEXT_PUBLIC_BASE_URL;
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setLoginData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -38,15 +39,12 @@ export default function CustomerLogin() {
     setLoading(true);
 
     try {
-      const res = await fetch(
-        "http://localhost:8080/api/merchantlogin/merchantlogin",
-        {
-          method: "POST",
-          credentials: "include",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(loginData),
-        },
-      );
+      const res = await fetch(`${newURL}/api/merchantlogin/merchantlogin`, {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(loginData),
+      });
 
       const data = await res.json();
 
@@ -95,7 +93,7 @@ export default function CustomerLogin() {
               Customer dashboard
             </span>
             <h1 className="text-white text-3xl font-bold leading-tight">
-              Log in 
+              Log in
             </h1>
             <p className="text-white/50 text-sm">
               Welcome back. Enter your details to access your dashboard.
@@ -194,7 +192,7 @@ export default function CustomerLogin() {
         <div className="flex-1 bg-white flex flex-col justify-center px-12 py-16 gap-7 overflow-y-auto">
           <div className="flex flex-col gap-2">
             <span className="text-[#7B2FBE] text-xs font-semibold uppercase tracking-widest">
-             Customer login
+              Customer login
             </span>
             <h1 className="text-[#10002B] text-3xl font-bold">Welcome back</h1>
             <p className="text-gray-400 text-sm">

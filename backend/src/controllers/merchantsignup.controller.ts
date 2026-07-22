@@ -80,7 +80,7 @@ export async function MerchantSignup(req: Request, res: Response) {
       ],
     );
 
-    const baseUrl = process.env.BASE_URL || "http://localhost:3000/";
+    const baseUrl = process.env.BASE_URL;
     const verifyUrl = `${baseUrl}/verify?token=${token}`;
 
     const { data, error } = await resend.emails.send({
