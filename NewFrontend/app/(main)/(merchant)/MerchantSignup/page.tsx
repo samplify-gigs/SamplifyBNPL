@@ -104,6 +104,7 @@ export default function MerchantSignup() {
       }
     } catch (err) {
       console.error(`error sending the inputs: ${err}`);
+      setError("unable to connect to server");
     } finally {
       setLoading(false);
     }
