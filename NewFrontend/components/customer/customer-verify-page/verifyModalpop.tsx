@@ -9,10 +9,10 @@ export function VerifyMethodModal({
   onChoose,
   light,
 }: {
-  options: VerifyMethod[];
+  options: VerifyOption[];
   loading: boolean;
   error: string;
-  onChoose: (option: VerifyMethod) => void;
+  onChoose: (option: VerifyOption) => void;
   light?: boolean;
 }) {
   const [chosen, setChosen] = useState<string | null>(null);
