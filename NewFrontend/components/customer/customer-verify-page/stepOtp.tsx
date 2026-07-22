@@ -3,10 +3,7 @@ import { FieldError } from "@/components/Merchant/error-success-feedback/feedbac
 import { useFieldStyles, VerifyOption } from "../customeruitls/fieldstyles";
 import { useState } from "react";
 
-type VerifyMethod = {
-  method: "email" | "phone";
-  hint: string;
-};
+
 
 
 export function StepOtp({
