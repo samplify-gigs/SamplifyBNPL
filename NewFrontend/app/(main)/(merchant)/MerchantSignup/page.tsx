@@ -86,7 +86,7 @@ export default function MerchantSignup() {
     setLoading(true);
 
     try {
-      const res = await fetch(`${newURL}/merchant/register`, {
+      const res = await fetch(`${newURL}/api/merchant/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inputsData),
