@@ -8,27 +8,28 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  let isAuth = false;
-
   try {
     const cookieStore = await cookies();
     const newURL = process.env.NEXT_PUBLIC_BASE_URL;
+    const cookieHeader = cookieStore
+      .getAll()
+      .map((c) => `${c.name}=${c.value}`)
+      .join("; ");
+
+    console.log("this is coolie header:", cookieHeader);
 
     const res = await fetch(`${newURL}/api/merchantdash/dashboard`, {
       headers: {
-        Cookie: cookieStore.toString(),
+        Cookie: cookieHeader,
       },
       cache: "no-store",
     });
 
     if (!res.ok) {
-      isAuth = true;
+      redirect("/merchantlogin");
     }
   } catch (err) {
     console.error("front err:", err);
-  }
-
-  if (isAuth) {
     redirect("/merchantlogin");
   }
 
