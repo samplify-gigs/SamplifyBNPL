@@ -62,8 +62,8 @@ export async function merchantlogin(req: Request, res: Response) {
 
     res.cookie("login_jwt", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 3 * 60 * 60 * 1000,
     });
 
