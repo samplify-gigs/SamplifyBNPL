@@ -59,6 +59,7 @@ export async function merchantlogin(req: Request, res: Response) {
     });
 
     console.log("checking if token is still signing", token);
+    console.log("JWT_SECRET exists:", !!process.env.JWT_SECRET);
 
     res.cookie("login_jwt", token, {
       httpOnly: true,
@@ -66,6 +67,8 @@ export async function merchantlogin(req: Request, res: Response) {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
       maxAge: 3 * 60 * 60 * 1000,
     });
+
+    console.log(res.getHeaders());
 
     res.status(200).json({
       message: "login successful",
