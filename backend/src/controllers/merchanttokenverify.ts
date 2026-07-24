@@ -9,6 +9,8 @@ export async function MerchantTokenVerify(
 ) {
   const token = req.cookies.login_jwt;
   const myJtSec = process.env.JWT_SECRET!;
+  console.log("is it reciveing token:", token);
+  console.log("sec key:", myJtSec);
 
   if (!token) {
     return res.status(401).json({
