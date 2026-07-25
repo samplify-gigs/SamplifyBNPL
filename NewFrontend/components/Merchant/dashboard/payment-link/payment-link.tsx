@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Copy, Check, QrCode, Link2 } from "lucide-react";
 import { mockPaymentLinks, formatNaira } from "@/lib/mock-data";
+import { iosFetch } from "@/components/Helpers/Ioscookiereq";
 
 export default function PaymentLinksGenerator() {
   const [label, setLabel] = useState("");
@@ -14,14 +15,10 @@ export default function PaymentLinksGenerator() {
   function handleGenerate() {
     if (!label || !amount) return;
     async function getLink() {
-      const res = await fetch(
+      const res = await iosFetch(
         `${newURL}/api/merchantdash/dashboard/paymentlink`,
         {
           method: "POST",
-          headers: {
-            "content-Type": "application/json",
-          },
-          credentials: "include",
           body: JSON.stringify({
             productName: label,
             price: Number(amount),
