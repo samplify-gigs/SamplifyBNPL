@@ -27,9 +27,6 @@ export default function MerchantLogin() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  
-
-  
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setLoginData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -40,7 +37,6 @@ export default function MerchantLogin() {
     setError("");
     setLoading(true);
     const newURL = process.env.NEXT_PUBLIC_BASE_URL;
-    
 
     try {
       const res = await fetch(`${newURL}/api/merchantlogin/merchantlogin`, {
@@ -51,6 +47,7 @@ export default function MerchantLogin() {
       });
 
       const data = await res.json();
+      console.log("this is backend respone after login:", data);
 
       if (data.message === "account will be verified manually") {
         router.push("/merchantmanualver");
@@ -63,6 +60,11 @@ export default function MerchantLogin() {
           setInputError(data.errors);
         }
       } else {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        console.log("this login to check ios message:", isIOS);
+        if (isIOS && data.token) {
+          localStorage.setItem("login_jwt", data.token);
+        }
         setSuccess(data.message);
         router.push("/merchantDashboard");
       }
