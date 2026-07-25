@@ -7,8 +7,12 @@ export async function MerchantTokenVerify(
   res: Response,
   next: NextFunction,
 ) {
-  const token = req.cookies.login_jwt;
+  const authHeader = req.headers.authorization;
+  const token = authHeader?.startsWith("Bearer ")
+    ? authHeader.split(" ")[1]
+    : req.cookies.login_jwt;
   const myJtSec = process.env.JWT_SECRET!;
+  console.log("cheching authheader");
   console.log("is it reciveing token:", token);
   console.log("sec key:", myJtSec);
 

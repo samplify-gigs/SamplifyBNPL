@@ -10,15 +10,29 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     async function verify() {
       try {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const token = localStorage.getItem("login_jwt");
+
+        if (isIOS && !token) {
+          router.replace("/merchantlogin");
+          return;
+        }
+
+        const headers: Record<string, string> = {};
+        if (isIOS && token) {
+          headers["Authorization"] = `Bearer ${token}`;
+        }
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_BASE_URL}/api/merchantdash/dashboard`,
           {
             credentials: "include",
+            headers,
             cache: "no-store",
           },
         );
 
         if (!res.ok) {
+          localStorage.removeItem("login_jwt");
           router.replace("/merchantlogin");
           return;
         }

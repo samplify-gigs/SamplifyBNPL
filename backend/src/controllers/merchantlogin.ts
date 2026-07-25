@@ -73,6 +73,7 @@ export async function merchantlogin(req: Request, res: Response) {
 
     res.status(200).json({
       message: "login successful",
+      token: token,
     });
   } catch (err) {
     console.error("could not log in, server error", err);
