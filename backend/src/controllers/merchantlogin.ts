@@ -69,6 +69,7 @@ export async function merchantlogin(req: Request, res: Response) {
     });
 
     console.log(res.getHeaders());
+    console.log(process.env.NODE_ENV);
 
     res.status(200).json({
       message: "login successful",
