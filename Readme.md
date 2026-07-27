@@ -13,6 +13,21 @@ Merchants can register, verify their accounts, create product payment links, and
 
 The project is built with a modern TypeScript stack using **Next.js**, **Express.js**, and **PostgreSQL (Supabase)**.
 
+## Demo Registration Notice
+
+> **Note:** Merchant registration currently uses the **free tier of Resend** for email verification.
+
+Because the free plan is tied to my personal email domain, verification emails are not publicly accessible.
+
+If you'd like to test the merchant registration flow:
+
+1. Register as a merchant.
+2. Send me an email at **[samplifygigs@gmail.com](mailto:samplifygigs@gmail.com)** using the email address you registered with.
+3. I'll send you the verification code so you can complete the registration process.
+
+This limitation only exists because the project is using the free Resend plan for demonstration purposes. In a production deployment, verification emails would be delivered automatically to every registered user.
+
+
 ## Project Status
 
 > **⚠️ Note:** This project is primarily intended as a **boilerplate and proof of concept** for a Buy Now, Pay Later (BNPL) platform.
@@ -349,9 +364,10 @@ This challenge provided valuable experience in understanding browser-specific be
 
 # Screenshots
 
+
 ## Landing Page
 
-> ![Dashboard](samplify-images\dashboard.png)
+> ![Dashboard](samplify-images/dashboard.png)
 
 ---
 
@@ -359,30 +375,29 @@ This challenge provided valuable experience in understanding browser-specific be
 
 ---
 
-> ![merchant login](samplify-images\login.png)
-
+> ![merchant login](samplify-images/login.png)
 
 ## Merchant Registration
 
-> ![Merchant registration](samplify-images\signup.png)
+> ![Merchant registration](samplify-images/signup.png)
 
 ---
 
 ## Merchant Dashboard
 
-> ![merchant dashboard](samplify-images\dashboard.png)
+> ![merchant dashboard](samplify-images/dashboard.png)
 
 ---
 
 ## Customer Payment Link
 
-> ![customer](samplify-images\paymentlink.png)
+> ![customer](samplify-images/paymentlink.png)
 
 ---
 
-## Payment 
+## Payment
 
-> ![payment](samplify-images\payment.png)
+> ![payment](samplify-images/payment.png)
 
 ---
 
@@ -403,7 +418,7 @@ This project was built to deepen understanding of:
 # Author
 
 **Samplify**
-samplify@gmail.com
+samplifygigs@gmail.com
 
 GitHub: https://github.com/samplify-gigs
 
