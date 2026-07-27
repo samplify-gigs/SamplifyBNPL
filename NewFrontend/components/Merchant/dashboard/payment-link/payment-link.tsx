@@ -10,24 +10,40 @@ export default function PaymentLinksGenerator() {
   const [amount, setAmount] = useState("");
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [generatedUrl, setGeneratedUrl] = useState<string | null>(null);
+  const [generating, setGenerating] = useState(false);
+  const [generateError, setGenerateError] = useState("");
+
   const newURL = process.env.NEXT_PUBLIC_BASE_URL;
 
   function handleGenerate() {
     if (!label || !amount) return;
     async function getLink() {
-      const res = await iosFetch(
-        `${newURL}/api/merchantdash/dashboard/paymentlink`,
-        {
-          method: "POST",
-          body: JSON.stringify({
-            productName: label,
-            price: Number(amount),
-          }),
-        },
-      );
+      try {
+        setGenerating(true);
+        setGenerateError("");
+        setGeneratedUrl(null);
+        const res = await iosFetch(
+          `${newURL}/api/merchantdash/dashboard/paymentlink`,
+          {
+            method: "POST",
+            body: JSON.stringify({
+              productName: label,
+              price: Number(amount),
+            }),
+          },
+        );
 
-      const data = await res.json();
-      setGeneratedUrl(data.data);
+        const data = await res.json();
+        if (!res.ok) {
+          setGenerateError(data.message ?? "Failed to generate link.");
+          return;
+        }
+        setGeneratedUrl(data.data);
+      } catch {
+        setGenerateError("Couldn't reach the server.");
+      } finally {
+        setGenerating(false);
+      }
     }
     getLink();
   }
@@ -75,9 +91,35 @@ export default function PaymentLinksGenerator() {
           <div className="flex flex-col gap-1.5 lg:justify-end">
             <button
               onClick={handleGenerate}
+              disabled={generating || !label || !amount}
               className="px-6 py-2.5 rounded-xl cursor-pointer bg-gradient-to-r from-[#7B2FBE] to-[#9D4EDD] text-white text-sm font-semibold shadow-[0_0_20px_rgba(157,78,221,0.35)] hover:shadow-[0_0_28px_rgba(157,78,221,0.5)] hover:scale-[1.02] transition-all duration-200 whitespace-nowrap"
             >
-              Generate link
+              {generating ? (
+                <>
+                  <svg
+                    className="w-4 h-4 animate-spin"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
+                  </svg>
+                  Creating link...
+                </>
+              ) : (
+                "Generate link"
+              )}
             </button>
           </div>
         </div>
